@@ -1,0 +1,62 @@
+.search{
+}
+
+.list{
+  margin-top: 0px;
+}
+
+.recom{
+  margin-top: 70px;
+  border-bottom:1px solid #c0c0c0;
+}
+
+.r_item{
+  padding: 5px;
+}
+
+.r_item img{
+  min-width:100%;
+}
+
+.r_item .name{
+  font-size: 0.9em;
+}
+
+.r_item .type{
+  font-size: 0.8em;
+  color: #c0c0c0;
+}
+
+
+.item{
+  border-bottom:1px solid #c0c0c0;
+  padding: 5px 0px;
+}
+
+.item img, .r_item img{
+  border-radius: 25%;
+}
+
+.item:nth-of-type(even) img{
+  border-radius: 50%;
+}
+
+.item .type, .item .rating{
+  font-size: 0.9em;
+  color: #c0c0c0;
+}
+
+.item .image, .item .no{
+  text-align: center;
+}
+.item .no{
+  margin-top: 25px;
+}
+
+.item .detail{
+  padding:0px 10px;
+}
+
+.loading{
+  text-align: center;
+}

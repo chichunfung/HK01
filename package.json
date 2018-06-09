@@ -1,0 +1,22 @@
+{
+  "name": "hk01",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^1.0.0-rc.1",
+    "@material-ui/icons": "^1.0.0-rc.0",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-infinity-loading": "^1.0.1",
+    "react-lazy-load-image-component": "^1.1.1",
+    "react-scripts": "1.1.4",
+    "react-slick": "^0.23.1",
+    "react-star-ratings": "^2.2.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
