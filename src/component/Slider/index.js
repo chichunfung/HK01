@@ -6,28 +6,6 @@ export default class SliderBar extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            recom: [],
-        };
-    }
-
-    componentWillMount() {
-        fetch('https://itunes.apple.com/hk/rss/topgrossingapplications/limit=10/json').then(results => {
-          return results.json();
-        }).then(data => {
-          //this.setState({recom:data.feed.entry})
-          let items = data.feed.entry.map((data, index) => {
-            return (
-              {
-                "id": data.id.attributes["im:id"],
-                "name": data["im:name"].label,
-                "image": data["im:image"][1].label,
-                "category": data.category.attributes.label,
-              }
-            )
-          })
-          this.setState({ recom: items });
-        })
     }
 
     render() {
@@ -41,7 +19,7 @@ export default class SliderBar extends Component {
 
         return (
             <Slider {...settings}>
-                {this.state.recom.map(function (data, index) {
+                {this.props.recom.map(function (data, index) {
                     return (
                         <Grid item container xs={12} className="r_item" key={data.id}>
                             <Grid item className="image"><img src={data.image} alt={data.name} /></Grid>
