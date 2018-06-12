@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import StarRatings from 'react-star-ratings';
-
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Grid from '@material-ui/core/Grid';
@@ -12,6 +10,7 @@ import FormControl from '@material-ui/core/FormControl';
 //import Slider from "react-slick";
 
 import SliderBar from "./component/Slider";
+import List from "./component/List";
 
 class App extends Component {
 
@@ -42,14 +41,12 @@ class App extends Component {
                     "count": results.results[0].userRatingCountForCurrentVersion,
                 }
                 count++
-                //console.log(count)
                 var temp_list = this.state.list
                 temp_list.push(items)
                 if (count == 10) {
                     this.setState({ list: temp_list })
                     this.setState({ item: no + 10 })
                     document.addEventListener('scroll', this.trackScrolling);
-                    console.log(no)
                     if (no + 10 == 100) {
                         this.setState({ showLoading: false })
                     } else {
@@ -61,22 +58,22 @@ class App extends Component {
     }
 
     componentWillMount() {
-        // fetch('https://itunes.apple.com/hk/rss/topgrossingapplications/limit=10/json').then(results => {
-        //     return results.json();
-        // }).then(data => {
-        //     //this.setState({recom:data.feed.entry})
-        //     let items = data.feed.entry.map((data, index) => {
-        //         return (
-        //             {
-        //                 "id": data.id.attributes["im:id"],
-        //                 "name": data["im:name"].label,
-        //                 "image": data["im:image"][1].label,
-        //                 "category": data.category.attributes.label,
-        //             }
-        //         )
-        //     })
-        //     this.setState({ recom: items });
-        // })
+        fetch('https://itunes.apple.com/hk/rss/topgrossingapplications/limit=10/json').then(results => {
+             return results.json();
+         }).then(data => {
+             //this.setState({recom:data.feed.entry})
+             let items = data.feed.entry.map((data, index) => {
+                 return (
+                     {
+                         "id": data.id.attributes["im:id"],
+                         "name": data["im:name"].label,
+                         "image": data["im:image"][1].label,
+                         "category": data.category.attributes.label,
+                     }
+                 )
+             })
+             this.setState({ recom: items });
+         })
 
         fetch('https://itunes.apple.com/hk/rss/topfreeapplications/limit=100/json').then(results => {
             return results.json();
@@ -111,19 +108,19 @@ class App extends Component {
     }
 
     handleChange = event => {
-        console.log(event.target.value);
         let key = event.target.value;
         if (event.target.value === '') {
-            //this.setState({ list: this.state.full_list });
-            this.renderUI()
+            this.setState({ item: 0, list : [] }, function () {
+                this.renderUI()
+            });
             document.addEventListener('scroll', this.trackScrolling);
         } else {
             document.removeEventListener('scroll', this.trackScrolling);
             let temp = this.state.full_list.filter((e) => {
                 return e.name.includes(key);
             })
-            console.log(temp);
             this.setState({ list: temp });
+            this.setState({ showLoading: false })
         }
     };
 
@@ -147,24 +144,12 @@ class App extends Component {
                 </AppBar>
 
                 <div className="recom">
-                    <SliderBar></SliderBar>
+                    <SliderBar recom={ this.state.recom } ></SliderBar>
                 </div>
 
                 <div className="list">
                     <Grid container>
-                        {this.state.list.map(function (data, index) {
-                            return (
-                                <Grid item container xs={12} sm={6} md={4} lg={3} className="item" key={data.id} >
-                                    <Grid item xs={1} className="no">{++index}</Grid>
-                                    <Grid item xs={3} className="image"><img src={data.image} alt={data.name} /></Grid>
-                                    <Grid item xs={8} className="detail">
-                                        <Grid item xs={12} className="name" >{data.name}</Grid>
-                                        <Grid item xs={12} className="type" >{data.category}</Grid>
-                                        <Grid item xs={12} className="rating"><StarRatings rating={data.rating} starDimension="15" starSpacing="5" starRatedColor="rgb(239, 150, 56)" numberOfStars={5} />({data.count})</Grid>
-                                    </Grid>
-                                </Grid>
-                            );
-                        })}
+                        <List data={this.state.list} ></List>
                     </Grid>
                 </div>
 
